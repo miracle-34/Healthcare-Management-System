@@ -1,5 +1,3 @@
-//miracle
-
 package model;
 
 public class Appointment {
