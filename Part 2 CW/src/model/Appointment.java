@@ -1,3 +1,5 @@
+//miracle
+
 package model;
 
 public class Appointment {
@@ -57,7 +59,7 @@ public class Appointment {
         return "Appointment ID " + appointmentId +
                 ", Date: " + date +
                 ", Time: " + time +
-               ", Reason: " + reason +
-               ", Status: " + status;
+                ", Reason: " + reason +
+                ", Status: " + status;
     }
 }
