@@ -22,10 +22,11 @@ public class AppointmentsPanel extends JPanel{
 
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
+        JButton loadButton = new JButton("Load");
         JButton addButton = new JButton("Add");
         JButton editButton = new JButton("Edit");
         JButton deleteButton = new JButton("Delete");
-        JButton loadButton = new JButton("Load");
+
 
         buttonPanel.add(addButton);
         buttonPanel.add(editButton);

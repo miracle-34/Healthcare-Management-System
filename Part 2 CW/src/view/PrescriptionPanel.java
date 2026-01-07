@@ -7,6 +7,8 @@ import java.awt.BorderLayout;
 import java.awt.FlowLayout;
 import java.io.BufferedReader;
 import java.io.FileReader;
+import java.util.ArrayList;
+import java.util.List;
 
 public class PrescriptionPanel extends JPanel {
 
@@ -16,10 +18,16 @@ public class PrescriptionPanel extends JPanel {
     {
         setLayout(new BorderLayout());
 
+        JButton loadButton = new JButton("Load");
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
+        buttonPanel.add(loadButton);
+
 
         JButton createButton = new JButton("Create Prescription");
         JButton viewQueueButton = new JButton(("View Prescriptions"));
+
+
 
         buttonPanel.add(createButton);
         buttonPanel.add(viewQueueButton);
@@ -34,6 +42,7 @@ public class PrescriptionPanel extends JPanel {
 
         createButton.addActionListener(e -> createPrescription());
         viewQueueButton.addActionListener(e -> viewPrescriptions());
+        loadButton.addActionListener(e -> loadPrescriptionsFromFile());
 
     }
     private void createPrescription()
@@ -84,7 +93,7 @@ public class PrescriptionPanel extends JPanel {
 
         String filePath = fileChooser.getSelectedFile().getAbsolutePath();
 
-        outputArea.setText("");
+        List<String> loadedPrescriptions = new ArrayList<>();
 
         try (BufferedReader reader = new BufferedReader(new FileReader(filePath))) {
 
@@ -93,18 +102,48 @@ public class PrescriptionPanel extends JPanel {
 
             while ((line = reader.readLine()) != null) {
 
-                if (firstLine) {
+                if (firstLine) { // skip header
                     firstLine = false;
                     continue;
                 }
 
-                outputArea.append(line + "\n---------------------\n");
+                if (!line.trim().isEmpty()) {
+                    loadedPrescriptions.add(line);
+                }
             }
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Failed to load prescriptions file.");
+            JOptionPane.showMessageDialog(
+                    this,
+                    "Failed to load prescriptions file.",
+                    "Load Prescriptions",
+                    JOptionPane.ERROR_MESSAGE
+            );
             e.printStackTrace();
+            return;
+        }
+
+        if (loadedPrescriptions.isEmpty()) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    "No prescriptions loaded.\nCheck file format.",
+                    "Load Prescriptions",
+                    JOptionPane.WARNING_MESSAGE
+            );
+            return;
+        }
+
+        // Clear manager + reload
+        PrescriptionManager.getInstance().getPrescriptions().clear();
+        PrescriptionManager.getInstance().getPrescriptions().addAll(loadedPrescriptions);
+
+        // Display in UI
+        outputArea.setText("");
+        for (String p : loadedPrescriptions) {
+            outputArea.append(p + "\n-------------------------\n");
         }
     }
 
 }
+
+

@@ -16,13 +16,17 @@ public class ReferralsPanel extends JPanel{
     {
         setLayout(new BorderLayout());
 
+        JButton loadButton = new JButton("Load");
+
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
 
         JButton createButton = new JButton("Create Referral");
         JButton viewQueueButton = new JButton(("View Referrals"));
+        loadButton.addActionListener(e -> loadReferralsFromFile());
 
         buttonPanel.add(createButton);
         buttonPanel.add(viewQueueButton);
+        buttonPanel.add(loadButton);
 
         add(buttonPanel, BorderLayout.NORTH);
 

@@ -22,7 +22,7 @@ public class Mainframe extends JFrame {
         // Appointments
         tabbedPane.addTab("Appointments", new AppointmentsPanel());
 
-        // Prescriptions  ✅ THIS WAS THE BIG BUG
+        // Prescriptions
         tabbedPane.addTab("Prescriptions", new PrescriptionPanel());
 
         // Referrals
